@@ -1,3 +1,4 @@
+''' timing with decorator '''
 from functools import wraps
 import time
 
@@ -8,6 +9,11 @@ def time_fun(method):
     '''
     @wraps(method)
     def wrap_timed(*args, **kw):
+        '''
+            @brief compute time elapsed while executing
+            @param *args arguments for called method
+            @param **kw arguments for called method
+        '''
         start_time = time.time()
         result = method(*args, **kw)
         elapsed_time = time.time() - start_time
@@ -18,9 +24,10 @@ def time_fun(method):
 
 @time_fun
 def simulate_do_things():
-    print('here')
+    '''
+    @brief a function that prints hello world
+    '''
+    print('Hello World')
 
-def main():
-    simulate_do_things()
 if __name__ == '__main__':
-    main()
+    simulate_do_things()

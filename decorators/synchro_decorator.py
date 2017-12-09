@@ -4,17 +4,17 @@ decorator to synchronize threads
 import threading
 import time
 
-lock = threading.Lock()
+LOCK = threading.Lock()
 
 def synchro(lock_id):
     '''
     @brief implements a decorator to synchronize threads.
     '''
-    def wrap(f):
-        def newFunction(*args, **kw):
+    def wrap(method):
+        def wrapped_function(*args, **kw):
             with lock_id:
-                return f(*args, **kw)
-        return newFunction
+                return method(*args, **kw)
+        return wrapped_function
     return wrap
 
 
@@ -22,16 +22,16 @@ def worker(name, timing):
     '''
     @brief implements a worker thread
     '''
-    for i in range(10):
+    for _ in range(10):
         time.sleep(timing)
         print(name)
 
-@synchro(lock)
+@synchro(LOCK)
 def worker1(name, timing):
     '''
     @brief implements a worker thread
     '''
-    for i in range(10):
+    for _ in range(10):
         time.sleep(timing)
         print(name)
 
