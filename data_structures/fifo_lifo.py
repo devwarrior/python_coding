@@ -12,9 +12,7 @@ def producer(the_queue, timing):
     @param the_queue the queue used to store data
     @param timing the interval of time between two insert
     '''
-    counter = 0
-    for _ in range(20):
-        counter = counter + 1
+    for counter in range(20):
         the_queue.put(counter)
         time.sleep(timing)
 
