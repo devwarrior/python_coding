@@ -2,7 +2,8 @@
 This simple module implements a producer-consumer using a FIFO and a LIFO Queue
 '''
 
-import Queue
+import queue
+# python 2.x import Queue
 import threading
 import time
 
@@ -32,8 +33,9 @@ def consumer(the_queue, timing):
 
 
 if __name__ == '__main__':
-    FIFO_QUEUE = Queue.Queue()
-    LIFO_QUEUE = Queue.LifoQueue()
+    # python2 Queue.Queue() and Queue.LifoQueue()
+    FIFO_QUEUE = queue.Queue()
+    LIFO_QUEUE = queue.LifoQueue()
 
     CONSUMER_FIFO = threading.Thread(group=None, target=consumer,
                                      name='consumer_fifo', args=(FIFO_QUEUE, 0.4))
