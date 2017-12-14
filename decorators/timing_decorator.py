@@ -23,11 +23,11 @@ def time_fun(method):
 
 
 @time_fun
-def simulate_do_things():
+def do_things():
     '''
     @brief a function that prints hello world
     '''
     print('Hello World')
 
 if __name__ == '__main__':
-    simulate_do_things()
+    do_things()

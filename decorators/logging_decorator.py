@@ -34,7 +34,7 @@ FORMATTER = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 F_HANDLER.setFormatter(FORMATTER)
 
 @log(LOGGER, level='debug')
-def simulate_do_things(tvalue):
+def do_things(tvalue):
     '''
     @brief a function that simulates work
     '''
@@ -42,7 +42,7 @@ def simulate_do_things(tvalue):
 
 @log(LOGGER, level='warning')
 @log(LOGGER, level='warning')
-def simulate_do_things1(tvalue):
+def do_things1(tvalue):
     '''
     @brief a function that simulates work
     '''
@@ -50,5 +50,5 @@ def simulate_do_things1(tvalue):
 
 
 if __name__ == '__main__':
-    simulate_do_things1(1)
-    simulate_do_things(0.8)
+    do_things1(1)
+    do_things(0.8)

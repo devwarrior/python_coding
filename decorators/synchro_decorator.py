@@ -5,7 +5,6 @@ import threading
 import time
 
 LOCK = threading.Lock()
-
 def synchro(lock_id):
     '''
     @brief implements a decorator to synchronize threads.
@@ -22,7 +21,7 @@ def worker(name, timing):
     '''
     @brief implements a worker thread
     '''
-    for _ in range(10):
+    for _ in range(5):
         time.sleep(timing)
         print(name)
 
@@ -31,7 +30,7 @@ def worker1(name, timing):
     '''
     @brief implements a worker thread
     '''
-    for _ in range(10):
+    for _ in range(5):
         time.sleep(timing)
         print(name)
 
