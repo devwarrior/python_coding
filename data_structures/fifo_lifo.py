@@ -2,10 +2,10 @@
 This simple module implements a producer-consumer using a FIFO and a LIFO Queue
 '''
 
-import queue
-# python 2.x import Queue
 import threading
 import time
+import queue
+# python 2.x import Queue
 
 def producer(the_queue, timing):
     '''
