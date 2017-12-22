@@ -47,10 +47,10 @@ if __name__ == '__main__':
     CONSUMER_FIFO.join()
 
     CONSUMER_LIFO = threading.Thread(group=None, target=consumer,
-                                     name='consumer_fifo', args=(LIFO_QUEUE, 0.4))
+                                     name='consumer_lifo', args=(LIFO_QUEUE, 0.4))
     CONSUMER_LIFO.start()
     PRODUCER_LIFO = threading.Thread(group=None, target=producer,
-                                     name='producer_fifo', args=(LIFO_QUEUE, 0.2))
+                                     name='producer_lifo', args=(LIFO_QUEUE, 0.2))
     PRODUCER_LIFO.start()
     PRODUCER_LIFO.join()
     CONSUMER_LIFO.join()
