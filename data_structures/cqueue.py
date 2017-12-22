@@ -4,6 +4,7 @@ simple module implements a circular queue. Full info and description on www.xapp
 import time
 import threading
 class CQueue():
+    ''' implements a circular queue '''
     def __init__(self, q_size=32):
         self.queue = list()
         self.head = 0
@@ -11,27 +12,48 @@ class CQueue():
         self.q_size = q_size
 
     def enqueue(self, data):
+        '''
+        @brief append an element at
+        @param data the item to be appended to the list
+        @return True if there is enough space to append the element, False otherwise.
+        '''
         if self.size() == self.q_size-1:
             print("Queue Full!")
-            return "Queue Full!"
+            return False
         self.queue.append(data)
         self.tail = (self.tail + 1) % self.q_size
         return True
 
     def dequeue(self):
+        '''
+        @brief append an element at
+        @return the item retrieved from the list, or False if the queue is empty
+        '''
         if self.size() == 0:
-            return "Queue Empty!"
+            print("Queue Empty!")
+            return False
         data = self.queue[self.head]
         self.head = (self.head + 1) % self.q_size
         return data
 
     def size(self):
+        '''
+        @brief compute the number of valid elements in the queue
+        @return the number of valid elements in the queue
+        '''
         if self.tail >= self.head:
             return self.tail-self.head
         return self.q_size - (self.head-self.tail)
 
     def print_queue(self):
-        print(self.queue)
+        '''
+        @brief Prints on the standard output the content of the queue
+        @return the number of valid elements in the queue
+        '''
+        appo = list()
+        for i in range(self.head, self.size()):
+            appo.append(self.queue[i%self.q_size])
+        print(appo)
 
 
 def producer(the_queue, timing):
