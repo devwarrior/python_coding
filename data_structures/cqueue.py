@@ -3,6 +3,20 @@ simple module implements a circular queue. Full info and description on www.xapp
 '''
 import time
 import threading
+LOCK = threading.Lock()
+
+
+def synchro(lock_id):
+    '''
+    @brief a decorator to synchronize threads.
+    '''
+    def wrap(method):
+        def wrapped_function(*args, **kw):
+            with lock_id:
+                return method(*args, **kw)
+        return wrapped_function
+    return wrap
+
 class CQueue():
     ''' implements a circular queue '''
     def __init__(self, q_size=32):
@@ -11,6 +25,7 @@ class CQueue():
         self.tail = 0
         self.q_size = q_size
 
+    @synchro(LOCK)
     def enqueue(self, data):
         '''
         @brief append an element at
@@ -24,6 +39,7 @@ class CQueue():
         self.tail = (self.tail + 1) % self.q_size
         return True
 
+    @synchro(LOCK)
     def dequeue(self):
         '''
         @brief append an element at
@@ -45,6 +61,7 @@ class CQueue():
             return self.tail-self.head
         return self.q_size - (self.head-self.tail)
 
+    @synchro(LOCK)
     def print_queue(self):
         '''
         @brief Prints on the standard output the content of the queue
