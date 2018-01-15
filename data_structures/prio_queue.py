@@ -13,7 +13,7 @@ if __name__ == '__main__':
     print('Populating the priority queue')
     for counter in range(10):
         time.sleep(0.4)
-        prio = randint(0, 9)
+        prio = randint(0, 3)
         strn = "data - "+ str(prio) + " " + str(time.asctime())
         PRIO_QUEUE.put((prio, strn))
         print((prio, strn))
