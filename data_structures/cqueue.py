@@ -1,15 +1,21 @@
-'''
-simple module implements a circular queue. Full info and description on www.xappsoftware.com
-'''
+"""[simple module that implements a circular queue.
+    Full info and description on www.xappsoftware.com]
+"""
+
 import time
 import threading
 LOCK = threading.Lock()
 
 
 def synchro(lock_id):
-    '''
-    @brief a decorator to synchronize threads.
-    '''
+    """[Decorator to synchronize threads.]
+
+    Arguments:
+        lock_id {[Lock Object]} -- [The lock object used to synchronize threads]
+
+    Returns:
+        [method] -- [The wrapped method]
+    """
     def wrap(method):
         def wrapped_function(*args, **kw):
             with lock_id:
@@ -17,84 +23,110 @@ def synchro(lock_id):
         return wrapped_function
     return wrap
 
+
 class CQueue():
-    ''' implements a circular queue '''
+    """[implements a circular queue]
+    """
+
     def __init__(self, q_size=32):
-        self.queue = list()
+        """[Initializes the queue structure]
+
+        Keyword Arguments:
+            q_size {[Integer]} -- [the maximum size of the queue] (default: {32})
+        """
+        self.queue = [None] * q_size
         self.head = 0
         self.tail = 0
         self.q_size = q_size
 
     @synchro(LOCK)
     def enqueue(self, data):
-        '''
-        @brief append an element at
-        @param data the item to be appended to the list
-        @return True if there is enough space to append the element, False otherwise.
-        '''
-        if self.size() == self.q_size-1:
+        """[Insert an element into the queue.]
+
+        Decorators:
+            synchro synchronizes threads
+
+        Arguments:
+            data {[data]} -- [the item to be appended to the list]
+
+        Returns:
+            [Boolean] -- [True if there is enough space to append the element, False otherwise.]
+        """
+        res = False
+        if self.size() == self.q_size - 1:
             print("Queue Full!")
-            return False
-        self.queue.append(data)
-        self.tail = (self.tail + 1) % self.q_size
-        return True
+        else:
+            self.queue[self.tail] = data
+            self.tail = (self.tail + 1) % self.q_size
+            res = True
+        return res
 
     @synchro(LOCK)
     def dequeue(self):
-        '''
-        @brief append an element at
-        @return the item retrieved from the list, or False if the queue is empty
-        '''
+        """[Retrieve an element from the queue]
+
+        Decorators:
+            synchro synchronizes threads
+
+        Returns:
+            [type] -- [The item retrieved from the list, or False if the queue is empty.]
+        """
+        data = False
         if self.size() == 0:
             print("Queue Empty!")
-            return False
-        data = self.queue[self.head]
-        self.head = (self.head + 1) % self.q_size
+        else:
+            data = self.queue[self.head]
+            self.head = (self.head + 1) % self.q_size
         return data
 
     def size(self):
-        '''
-        @brief compute the number of valid elements in the queue
-        @return the number of valid elements in the queue
-        '''
+        """[Computes the number of valid elements in the queue]
+
+        Returns:
+            [Integer] -- [the number of valid elements in the queue]
+        """
         if self.tail >= self.head:
-            return self.tail-self.head
-        return self.q_size - (self.head-self.tail)
+            return self.tail - self.head
+        else:
+            return self.q_size - (self.head - self.tail)
 
     @synchro(LOCK)
     def print_queue(self):
-        '''
-        @brief Prints on the standard output the content of the queue
-        @return the number of valid elements in the queue
-        '''
+        """[Prints on the standard output the content of the queue]
+
+        Decorators:
+            synchro synchronizes threads
+        """
         appo = list()
         for i in range(self.head, self.size()):
-            appo.append(self.queue[i%self.q_size])
+            appo.append(self.queue[i % self.q_size])
         print(appo)
 
 
 def producer(the_queue, timing):
-    '''
-    @brief produce and insert new data into the_queue
-    @param the_queue the queue used to store data
-    @param timing the interval of time between two insert
-    '''
+    """[Produces and inserts new data into the_queue]
+
+    Arguments:
+        the_queue {[CQueue]} -- [the queue used to store data]
+        timing {[Integer]} -- [the interval of time between the production of two items]
+    """
     for counter in range(50):
-        the_queue.enqueue(counter)
+        the_queue.enqueue(str(counter))
         time.sleep(timing)
 
+
 def consumer(the_queue, timing):
-    '''
-    @brief consume dataof the queue.
-    @param the_queue the queue where t retrieve data.
-    @param timing the interval of time between two retrieve.
-    '''
+    """[Consumes data from the queue]
+
+    Arguments:
+        the_queue {[type]} -- [the queue used to get data.]
+        timing {[type]} -- [the interval of time between two retrieves.]
+    """
     for _ in range(20):
         time.sleep(timing)
         print('consumer - get() - ' + str(the_queue.dequeue()))
         print('consumer - list() -')
         the_queue.print_queue()
-
 
 
 if __name__ == '__main__':
