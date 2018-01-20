@@ -53,7 +53,7 @@ class CQueue():
             [Boolean] -- [True if there is enough space to append the element, False otherwise.]
         """
         res = False
-        if self.size() == self.q_size - 1:
+        if self.__size() == self.q_size - 1:
             print("Queue Full!")
         else:
             self.queue[self.tail] = data
@@ -72,14 +72,14 @@ class CQueue():
             [type] -- [The item retrieved from the list, or False if the queue is empty.]
         """
         data = False
-        if self.size() == 0:
+        if self.__size() == 0:
             print("Queue Empty!")
         else:
             data = self.queue[self.head]
             self.head = (self.head + 1) % self.q_size
         return data
 
-    def size(self):
+    def __size(self):
         """[Computes the number of valid elements in the queue]
 
         Returns:
@@ -97,10 +97,10 @@ class CQueue():
         Decorators:
             synchro synchronizes threads
         """
-        appo = list()
-        for i in range(self.head, self.size()):
-            appo.append(self.queue[i % self.q_size])
-        print(appo)
+        to_be_printed = list()
+        for i in range(self.head, self.__size()):
+            to_be_printed.append(self.queue[i % self.q_size])
+        print(to_be_printed)
 
 
 def producer(the_queue, timing):
