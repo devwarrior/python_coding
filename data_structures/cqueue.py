@@ -44,7 +44,7 @@ class CQueue():
         """[Insert an element into the queue.]
 
         Decorators:
-            synchro synchronizes threads
+            synchro Synchronizes the access to the queue
 
         Arguments:
             data {[data]} -- [the item to be appended to the list]
@@ -66,7 +66,7 @@ class CQueue():
         """[Retrieve an element from the queue]
 
         Decorators:
-            synchro synchronizes threads
+            synchro Synchronizes threads
 
         Returns:
             [type] -- [The item retrieved from the list, or False if the queue is empty.]
